@@ -1,329 +1,117 @@
-<div align="center">
-
-<img width="1000" alt="banner_bordered_trimmed" src="https://github.com/user-attachments/assets/64f13b39-da06-4f58-add0-cfc44f04db4e" />
-
-<h2>The Agentive Operating System for Physical Space</h2>
-
-[![Discord](https://img.shields.io/discord/1341146487186391173?style=flat-square&logo=discord&logoColor=white&label=Discord&color=5865F2)](https://discord.gg/dimos)
-[![Stars](https://img.shields.io/github/stars/dimensionalOS/dimos?style=flat-square)](https://github.com/dimensionalOS/dimos/stargazers)
-[![Forks](https://img.shields.io/github/forks/dimensionalOS/dimos?style=flat-square)](https://github.com/dimensionalOS/dimos/fork)
-[![Contributors](https://img.shields.io/github/contributors/dimensionalOS/dimos?style=flat-square)](https://github.com/dimensionalOS/dimos/graphs/contributors)
-![Nix](https://img.shields.io/badge/Nix-flakes-5277C3?style=flat-square&logo=NixOS&logoColor=white)
-![NixOS](https://img.shields.io/badge/NixOS-supported-5277C3?style=flat-square&logo=NixOS&logoColor=white)
-![CUDA](https://img.shields.io/badge/CUDA-supported-76B900?style=flat-square&logo=nvidia&logoColor=white)
-[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
-
-<a href="https://trendshift.io/repositories/23169" target="_blank"><img src="https://trendshift.io/api/badge/repositories/23169" alt="dimensionalOS%2Fdimos | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
-<big><big>
-
-[Hardware](#hardware) •
-[Installation](#installation) •
-[Agent CLI & MCP](#agent-cli-and-mcp) •
-[Blueprints](#blueprints) •
-[Development](#development)
-
-⚠️ **Pre-Release Beta** ⚠️
-
-</big></big>
-
-</div>
-
-# Intro
-
-Dimensional is the modern operating system for generalist robotics. We are setting the next-generation SDK standard, integrating with the majority of robot manufacturers.
-
-With a simple install and no ROS required, build physical applications entirely in python that run on any humanoid, quadruped, or drone.
-
-Dimensional is agent native -- "vibecode" your robots in natural language and build (local & hosted) multi-agent systems that work seamlessly with your hardware. Agents run as native modules — subscribing to any embedded stream, from perception (lidar, camera) and spatial memory down to control loops and motor drivers.
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <a href="docs/capabilities/navigation/index.md"><img src="assets/readme/navigation.gif" alt="Navigation" width="100%"></a>
-    </td>
-    <td align="center" width="50%">
-      <img src="assets/readme/perception.png" alt="Perception" width="100%">
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <h3><a href="docs/capabilities/navigation/index.md">Navigation and Mapping</a></h3>
-      SLAM, dynamic obstacle avoidance, route planning, and autonomous exploration — via both DimOS native and ROS<br><a href="https://x.com/stash_pomichter/status/2010471593806545367">Watch video</a>
-    </td>
-    <td align="center" width="50%">
-      <h3>Perception</h3>
-      Detectors, 3d projections, VLMs, Audio processing
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <a href="docs/capabilities/agents/readme.md"><img src="assets/readme/agentic_control.gif" alt="Agents" width="100%"></a>
-    </td>
-    <td align="center" width="50%">
-      <img src="assets/readme/spatial_memory.gif" alt="Spatial Memory" width="100%">
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <h3><a href="docs/capabilities/agents/readme.md">Agentive Control, MCP</a></h3>
-      "hey Robot, go find the kitchen"<br><a href="https://x.com/stash_pomichter/status/2015912688854200322">Watch video</a>
-    </td>
-    <td align="center" width="50%">
-      <h3>Spatial Memory</a></h3>
-      Spatio-temporal RAG, Dynamic memory, Object localization and permanence<br><a href="https://x.com/stash_pomichter/status/1980741077205414328">Watch video</a>
-    </td>
-  </tr>
-</table>
-
-
-# Hardware
-
-<table>
-  <tr>
-    <td align="center" width="20%">
-      <h3>Quadruped</h3>
-      <img width="245" height="1" src="assets/readme/spacer.png">
-    </td>
-    <td align="center" width="20%">
-      <h3>Humanoid</h3>
-      <img width="245" height="1" src="assets/readme/spacer.png">
-    </td>
-    <td align="center" width="20%">
-      <h3>Arm</h3>
-      <img width="245" height="1" src="assets/readme/spacer.png">
-    </td>
-    <td align="center" width="20%">
-      <h3>Drone</h3>
-      <img width="245" height="1" src="assets/readme/spacer.png">
-    </td>
-    <td align="center" width="20%">
-      <h3>Misc</h3>
-      <img width="245" height="1" src="assets/readme/spacer.png">
-    </td>
-  </tr>
-
-  <tr>
-    <td align="center" width="20%">
-      🟩 <a href="docs/platforms/quadruped/go2/index.md">Unitree Go2 pro/air</a><br>
-      🟥 <a href="dimos/robot/unitree/b1">Unitree B1</a><br>
-    </td>
-    <td align="center" width="20%">
-      🟨 <a href="docs/platforms/humanoid/g1/index.md">Unitree G1</a><br>
-    </td>
-    <td align="center" width="20%">
-      🟨 <a href="docs/capabilities/manipulation/readme.md">Xarm</a><br>
-      🟨 <a href="docs/capabilities/manipulation/readme.md">AgileX Piper</a><br>
-    </td>
-    <td align="center" width="20%">
-      🟧 <a href="dimos/robot/drone/README.md">MAVLink</a><br>
-      🟧 <a href="dimos/robot/drone/README.md">DJI Mavic</a><br>
-    </td>
-    <td align="center" width="20%">
-      🟥 <a href="https://github.com/dimensionalOS/openFT-sensor">Force Torque Sensor</a><br>
-    </td>
-  </tr>
-</table>
-<br>
-<div align="right">
-🟩 stable 🟨 beta 🟧 alpha 🟥 experimental
-
-</div>
-
-> [!IMPORTANT]
-> 🤖 Direct your favorite Agent (OpenClaw, Claude Code, etc.) to [AGENTS.md](AGENTS.md) and our [CLI and MCP](#agent-cli-and-mcp) interfaces to start building powerful Dimensional applications.
-
-# Installation
-
-## Interactive Install
-
-```sh skip
-curl -fsSL https://raw.githubusercontent.com/dimensionalOS/dimos/main/scripts/install.sh | bash
-```
-
-> See [`scripts/install.sh --help`](scripts/install.sh) for non-interactive and advanced options.
-
-## Manual System Install
-
-To set up your system dependencies, follow one of these guides:
-
-- 🟩 [Ubuntu 22.04 / 24.04](docs/installation/ubuntu.md)
-- 🟩 [NixOS / General Linux](docs/installation/nix.md)
-- 🟧 [macOS](docs/installation/osx.md)
-
-> Full system requirements, tested configs, and dependency tiers: [docs/requirements.md](docs/requirements.md)
-
-## Python Install
-
-### Quickstart
-
-```bash
-uv venv --python "3.12"
-source .venv/bin/activate
-uv pip install 'dimos[base,unitree]'
-
-# Replay a recorded quadruped session (no hardware needed)
-# NOTE: First run will show a black rerun window while ~75 MB downloads from LFS
-dimos --replay run unitree-go2
-```
-
-```bash
-# Install with simulation support
-uv pip install 'dimos[base,unitree,sim]'
-
-# Run quadruped in MuJoCo simulation
-dimos --simulation run unitree-go2
-
-# Run humanoid in simulation
-dimos --simulation run unitree-g1-sim
-```
-
-```bash
-# Control a real robot (Unitree quadruped over WebRTC)
-export ROBOT_IP=<YOUR_ROBOT_IP>
-dimos run unitree-go2
-```
-
-# Featured Runfiles
-
-| Run command | What it does |
-|-------------|-------------|
-| `dimos --replay run unitree-go2` | Quadruped navigation replay — SLAM, costmap, A* planning |
-| `dimos --replay --replay-db go2_bigoffice run unitree-go2-memory` | Quadruped temporal memory replay |
-| `dimos --simulation run unitree-go2-agentic` | Quadruped agentic + MCP server in simulation |
-| `dimos --simulation run unitree-g1-sim` | Humanoid in MuJoCo simulation |
-| `dimos --replay run drone-basic` | Drone video + telemetry replay |
-| `dimos --replay run drone-agentic` | Drone + LLM agent with flight skills (replay) |
-| `dimos run demo-camera` | Webcam demo — no hardware needed |
-| `dimos run keyboard-teleop-xarm7` | Keyboard teleop with mock xArm7 (requires `dimos[manipulation]` extra) |
-| `dimos --simulation run unitree-go2-agentic-ollama` | Quadruped agentic with local LLM (requires [Ollama](https://ollama.com) + `ollama serve`) |
-
-> Full blueprint docs: [docs/usage/blueprints.md](docs/usage/blueprints.md)
-
-# Agent CLI and MCP
-
-The `dimos` CLI manages the full lifecycle — run blueprints, inspect state, interact with agents, and call skills via MCP.
-
-```bash
-dimos run unitree-go2-agentic --daemon   # Start in background
-dimos status                              # Check what's running
-dimos log -f                              # Follow logs
-dimos agent-send "explore the room"       # Send agent a command
-dimos mcp list-tools                      # List available MCP skills
-dimos mcp call relative_move --arg forward=0.5  # Call a skill directly
-dimos stop                                # Shut down
-```
-
-> Full CLI reference: [docs/usage/cli.md](docs/usage/cli.md)
-
-
-# Usage
-
-## Use DimOS as a Library
-
-See below a simple robot connection module that sends streams of continuous `cmd_vel` to the robot and receives `color_image` to a simple `Listener` module. DimOS Modules are subsystems on a robot that communicate with other modules using standardized messages.
-
-```py skip
-import threading, time, numpy as np
-from dimos.core.coordination.blueprints import autoconnect
-from dimos.core.core import rpc
-from dimos.core.module import Module
-from dimos.core.stream import In, Out
-from dimos.msgs.geometry_msgs import Twist
-from dimos.msgs.sensor_msgs import Image, ImageFormat
-
-class RobotConnection(Module):
-    cmd_vel: In[Twist]
-    color_image: Out[Image]
-
-    @rpc
-    def start(self):
-        threading.Thread(target=self._image_loop, daemon=True).start()
-
-    def _image_loop(self):
-        while True:
-            img = Image.from_numpy(
-                np.zeros((120, 160, 3), np.uint8),
-                format=ImageFormat.RGB,
-                frame_id="camera_optical",
-            )
-            self.color_image.publish(img)
-            time.sleep(0.2)
-
-class Listener(Module):
-    color_image: In[Image]
-
-    @rpc
-    def start(self):
-        self.color_image.subscribe(lambda img: print(f"image {img.width}x{img.height}"))
-
-if __name__ == "__main__":
-    autoconnect(
-        RobotConnection.blueprint(),
-        Listener.blueprint(),
-    ).build().loop()
-```
-
-## Blueprints
-
-Blueprints are instructions for how to construct and wire modules. We compose them with
-`autoconnect(...)`, which connects streams by `(name, type)` and returns a `Blueprint`.
-
-Blueprints can be composed, remapped, and have transports overridden if `autoconnect()` fails due to conflicting variable names or `In[]` and `Out[]` message types.
-
-A blueprint example that connects the image stream from a robot to an MCP-backed LLM agent for reasoning and action execution.
-```py skip
-from dimos.core.coordination.blueprints import autoconnect
-from dimos.core.transport import LCMTransport
-from dimos.msgs.sensor_msgs import Image
-from dimos.robot.unitree.go2.connection import go2_connection
-from dimos.agents.mcp.mcp_client import McpClient
-from dimos.agents.mcp.mcp_server import McpServer
-
-blueprint = autoconnect(
-    go2_connection(),
-    McpServer.blueprint(),
-    McpClient.blueprint(),
-).transports({("color_image", Image): LCMTransport("/color_image", Image)})
-
-# Run the blueprint
-if __name__ == "__main__":
-    blueprint.build().loop()
-```
-
-## Library API
-
-- [Modules](docs/usage/modules.md)
-- [LCM](docs/usage/lcm.md)
-- [Blueprints](docs/usage/blueprints.md)
-- [Transports](docs/usage/transports/index.md) — LCM, SHM, DDS, ROS 2
-- [Data Streams](docs/usage/data_streams/README.md)
-- [Configuration](docs/usage/configuration.md)
-- [Visualization](docs/usage/visualization.md)
-
-## Demos
-
-<img src="assets/readme/dimos_demo.gif" alt="DimOS Demo" width="100%">
-
-# Development
-
-## Develop on DimOS
-
-```sh skip
-export GIT_LFS_SKIP_SMUDGE=1
-git clone https://github.com/dimensionalOS/dimos.git
-cd dimos
-
-# Run the default test suite (uv run syncs deps on demand; --all-groups
-# only needed for self-hosted tests / mypy — see docs/development/testing.md)
-uv run pytest --numprocesses=auto dimos
-```
-
-
-## Multi Language Support
-
-Python is our glue and prototyping language, but we support many languages via LCM interop.
-
-Check our language interop examples:
-- [C++](examples/language-interop/cpp/)
-- [Lua](examples/language-interop/lua/)
-- [TypeScript](examples/language-interop/ts/)
+# Dimensional
+
+
+
+### 一句话：你做了什么，给谁用
+
+* **做了什么**：我们打造了 FlowER (Flower Embodied Robotics)——基于具身智能的植物生命状态感知与多维交互系统，为真实植物配备了一副能够表达自我的具身机械臂身体。
+
+
+* **给谁用**：面向追求生命陪伴、希望与自然重新建立深层双向情感连接的现代城市群体与植物抚养者。
+
+
+
+---
+
+### 问题：你为什么选择做这个主题
+
+* **打破工业/服务型机器人逻辑**：打破传统机器人“AI 指令 → 机械身体为人服务”的模式，探索将具身科技的应用边界拓展至“自然生命状态的物理呈现”。
+
+
+* **解决植物表达缺失的痛点**：传统植物养护产品仅能做“单向数据监控与报警弹窗”，植物缺乏直观表达自身生命状态与意图的物理媒介。
+
+
+* **满足现代人的情感连接诉求**：在屏幕时间泛滥、自然接触匮乏的现代社会，将人与植物单向照护的关系升华为双向生命的平等交流与陪伴。
+
+
+
+---
+
+### 作品：机器人具体在干什么？
+
+* **生存环境与情感表达**：通过温湿度传感器采集微环境数据并映射为“情感参数”，动态调控机械臂的移动速度与运动限高（如环境舒适时向阳伸展，环境恶劣或夜间时平缓收回休眠）。
+
+
+* **人机多模态视觉交互**：通过 RGB 摄像头捕捉并注册人脸，执行连续平滑的视角跟踪；识别手部互动动作，控制机械臂做出“点头”等直观肢体响应。
+
+
+* **姿态理解与生命归档**：结合 RGB 摄像头与多模态大模型深度解析植物生长形态与姿态变化，自动撰写富有人格色彩的文字并生成 WebApp 生命日记相册。
+
+
+
+---
+
+### DimOS：你用了哪些能力（导航 / 感知 / 记忆 / 语音 / LLM 接入…），自己额外写了什么
+
+* **调用的 DimOS / 基础框架能力**：
+* **控制与规划能力**：使用了 DimOS 的 `eef_twist_task`（6-DOF 末端速度控制与闭环 IK）、`ControlCoordinator`（100Hz 仲裁与硬件驱动）、`Planner` 路径规划 以及 Viser 可视化后端。
+
+
+* **感知与记忆能力**：结合了基于 MediaPipe 的人脸与手势感知（`perception`），以及基于 `WorldMonitor` 的几何体存储、碰撞检测与空间障碍物渲染。
+
+
+* **LLM 接入**：集成了多模态大模型进行姿态理解、生命人格维护与日记生成。
+
+
+
+
+* **团队额外自研/重构的模块（rePE 架构）**：
+* **`FlowER VisionHub` (:8890)**：接管 DCW 硬件采集，实现 RGB 及深度帧的高效转发。
+
+
+* **`rePE/spatial` 空间记忆引擎 (:8891)**：实现深度聚类、世界坐标系转换、2D 投影匹配与持久化世界物体注册表。
+
+
+* **`rePE/perception` 视觉交互模块 (:8892)**：封装 MediaPipe 人脸/手势检测，并向 WorldMonitor 推送瞬态障碍物。
+
+
+* **`rePE/tracking` 视觉伺服**：连续闭环计算 Twist 速度指令，并针对 Coordinator 做了轻量级距离安全避障拦截。
+
+
+* **`rePE/web` & WebApp 相册系统**：提供 MJPEG 流转推、交互式任务面板 以及生成富有人格化的 WebApp 生命日记相册。
+
+
+
+
+
+---
+
+### 人工介入的程度：哪些地方是遥控的，哪些是自主执行的
+
+* **人工介入 / 遥控部分**：
+* 用户可在 WebUI 任务面板中手动创建或触发指向性 pointing 任务（如指定摄像头看某个物体并靠近）。
+
+
+* 支持通过 RPC 脚本（如调用 `manipulation_client.py` 执行 `plan()/execute()`）或外部指令接口注入自定义情感参数。
+
+
+
+
+* **自主执行部分**：
+* **环境与动力学自主调控**：实时感知温湿度等生存环境，自主映射并调整机械臂的移动速度上限与空间限高。
+
+
+* **视觉闭环自主跟随与交互**：检测到人脸时自主触发平滑视角追随；识别到手势时自主决策并执行“点头”确认或拒绝动作。
+
+
+* **自主感知与生命记录**：多模态大模型自主识别植物姿态变异，自动撰写富有人格色彩的文字并归档至 WebApp 相册。
+
+
+* **自主安全检查**：tracking 模块在连续跟踪过程中自主查询 WorldMonitor 障碍物距离以触发减速或安全拦截。
+
+
+
+
+
+---
+
+### 你做的项目有商业落地的可能吗？谁会为它付钱？用户是谁呢
+
+* **商业落地可能性**：项目成功将具身智能的应用从刚性工业/服务拓展至“自然生命状态物理呈现与情感陪伴”的新分支，为智能家居、高端疗愈空间与科技装置艺术提供了全新的商业范式。
+
+
+* **付费者与目标用户**：
+* **个人消费者**：追求品质生活、缓解都市社交焦虑的青年群体与植物抚养爱好者。
+
+
+* **商业/机构用户**：需要空间陪伴装饰与互动装置的办公园区、高端会所或商业空间（可扩展为多节点分布式植物交互网络）。
