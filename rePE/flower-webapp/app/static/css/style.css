@@ -1,0 +1,1170 @@
+/* ==========================================
+   FlowER - Global Styles
+   Theme: Light Green Minimalist
+   ========================================== */
+
+/* --- CSS Variables --- */
+:root {
+    --primary: #8B9A46;
+    --primary-light: #EBF0D8;
+    --primary-dark: #6B7A30;
+    --accent: #D4943A;
+    --bg: #F5E6C8;
+    --bg-card: #FFFBF2;
+    --text-primary: #2D2518;
+    --text-secondary: #5C5040;
+    --text-muted: #A89880;
+    --shadow-sm: 0 2px 8px rgba(139, 154, 70, 0.12);
+    --shadow-md: 0 4px 16px rgba(139, 154, 70, 0.16);
+    --shadow-lg: 0 8px 32px rgba(139, 154, 70, 0.2);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    
+    /* 紫色渐变（花朵卡片专用） */
+    --purple-start: #D1B3E0;
+    --purple-mid: #B08DC5;
+    --purple-end: #8B6BB5;
+    --purple-dark: #6A3E8A;
+}
+
+/* --- Global Reset & Base --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+    font-family: var(--font-main);
+    background: linear-gradient(180deg, #FAF3E0 0%, #E8DCC0 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- Nav Back Hint (static text, non-clickable) --- */
+.nav-back-hint {
+    display: none; /* 桌面端隐藏 */
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted, #999);
+    font-size: 0.75rem;
+    font-weight: 400;
+    padding: 4px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.nav-back-hint svg {
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .nav-back-hint {
+        display: flex;
+    }
+}
+
+/* --- Navigation --- */
+.main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 230, 200, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(139, 154, 70, 0.15);
+    padding: 0 24px;
+}
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+.nav-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #6B7A30;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+.nav-links { display: flex; gap: 24px; }
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+.nav-links a:hover {
+    color: var(--primary-dark);
+    background: var(--primary-light);
+}
+
+
+/* --- Main Content --- */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    min-height: calc(100vh - 140px);
+}
+
+/* --- Footer --- */
+.main-footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(139, 154, 70, 0.12);
+}
+
+/* --- Home Page --- */
+.home-container { text-align: center; }
+.home-hero {
+    padding: 40px 0 20px;
+    animation: fadeInUp 0.6s ease-out;
+}
+.home-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #D4943A;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+}
+.home-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+.home-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+/* --- Stacked Card Layout --- */
+.card-stack {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 520px;
+    margin: 30px auto 0;
+    perspective: 1200px;
+}
+.stack-card {
+    position: absolute;
+    width: 280px;
+    height: 380px;
+    left: 50%;
+    top: 50%;
+    margin-left: -140px;
+    margin-top: -190px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.stack-card .card-body {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.card-label {
+    position: absolute;
+    bottom: 24px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* --- Card positions --- */
+.stack-card.pos-center {
+    transform: translateZ(60px) scale(1);
+    z-index: 10;
+    opacity: 1;
+    filter: none;
+}
+.stack-card.pos-left {
+    transform: translateX(-260px) translateZ(-40px) rotateY(18deg) scale(0.88);
+    z-index: 5;
+    opacity: 1;
+}
+.stack-card.pos-right {
+    transform: translateX(260px) translateZ(-40px) rotateY(-18deg) scale(0.88);
+    z-index: 5;
+    opacity: 1;
+}
+/* Grey overlay for non-active cards */
+.stack-card.pos-left .card-body::after,
+.stack-card.pos-right .card-body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(180, 180, 180, 0.35);
+    border-radius: 20px;
+    z-index: 20;
+    transition: opacity 0.4s;
+}
+.stack-card.pos-center .card-body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border-radius: 20px;
+    z-index: 20;
+    pointer-events: none;
+}
+.stack-card:hover.pos-left,
+.stack-card:hover.pos-right {
+    filter: brightness(1.05);
+}
+
+/* ============ Card 1: 花朵视界 - 萌系眼睛 ============ */
+.card-vision .card-body {
+    background: linear-gradient(160deg, #EBF0D8 0%, #C8D8A8 100%);
+    box-shadow: 0 8px 32px rgba(76,175,80,0.18);
+    border: 2px solid rgba(102,187,106,0.15);
+}
+.card-vision .card-label { color: #4A5A20; }
+
+.eye-icon {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+.petal-ring {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+}
+.petal {
+    position: absolute;
+    width: 48px;
+    height: 60px;
+    background: #A8B868;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    left: 50%;
+    top: 50%;
+    margin-left: -24px;
+    margin-top: -52px;
+    transform-origin: center 52px;
+    opacity: 0.85;
+}
+.petal.p1 { transform: rotate(0deg); }
+.petal.p2 { transform: rotate(60deg); }
+.petal.p3 { transform: rotate(120deg); }
+.petal.p4 { transform: rotate(180deg); }
+.petal.p5 { transform: rotate(240deg); }
+.petal.p6 { transform: rotate(300deg); }
+
+.pupil {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 38% 35%, #8B9A46 0%, #6B7A30 60%, #4A5A20 100%);
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 12px rgba(46,125,50,0.3), inset 0 -4px 8px rgba(0,0,0,0.15);
+}
+.pupil-highlight {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 50%;
+    top: 14px;
+    left: 16px;
+}
+.pupil::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    bottom: 18px;
+    right: 16px;
+}
+
+/* ============ Card 2: 花朵日记 - 复古手札 ============ */
+.card-diary .card-body {
+    background: linear-gradient(145deg, #4E342E 0%, #3E2723 40%, #4E342E 100%);
+    box-shadow:
+        0 12px 36px rgba(62,39,35,0.45),
+        0 4px 12px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    border: 2px solid rgba(141,110,99,0.35);
+    padding: 22px 16px 48px;
+}
+.card-diary .card-label { color: #D7CCC8; }
+
+/* --- Journal container --- */
+.book-journal {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+/* --- Left page: leather cover --- */
+.book-page-left {
+    flex: 1;
+    background:
+        linear-gradient(155deg, #6D4C41 0%, #5D4037 25%, #4E342E 60%, #5D4037 100%);
+    border-radius: 14px 0 0 14px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 14px 20px;
+    box-shadow:
+        inset -10px 0 18px rgba(0,0,0,0.2),
+        inset 3px 0 6px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+/* Leather grain texture */
+.book-page-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            52deg,
+            transparent,
+            transparent 3px,
+            rgba(0,0,0,0.025) 3px,
+            rgba(0,0,0,0.025) 6px
+        ),
+        repeating-linear-gradient(
+            -38deg,
+            transparent,
+            transparent 4px,
+            rgba(255,255,255,0.015) 4px,
+            rgba(255,255,255,0.015) 8px
+        );
+    border-radius: 14px 0 0 14px;
+    pointer-events: none;
+}
+/* Embossed border frame */
+.book-page-left::after {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(255,215,0,0.18);
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+/* --- Right page: inner paper --- */
+.book-page-right {
+    flex: 1;
+    background:
+        linear-gradient(180deg, #FFF8E1 0%, #FFECB3 40%, #FFF8E1 100%);
+    border-radius: 0 14px 14px 0;
+    position: relative;
+    padding: 28px 14px 20px;
+    box-shadow:
+        inset 10px 0 18px rgba(0,0,0,0.06),
+        inset -2px 0 4px rgba(0,0,0,0.02);
+    overflow: hidden;
+}
+/* Paper edge stack effect */
+.book-page-right::before {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: 5px;
+    bottom: 5px;
+    width: 5px;
+    background:
+        repeating-linear-gradient(
+            180deg,
+            #FFF8E1 0px,
+            #FFF8E1 2px,
+            #E8D5A0 2px,
+            #E8D5A0 3px
+        );
+    border-radius: 0 3px 3px 0;
+}
+
+/* --- Binding rings --- */
+.book-binding {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 18px;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 28px 0;
+}
+.book-binding::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(0,0,0,0.12);
+    transform: translateX(-50%);
+}
+.book-ring {
+    width: 12px;
+    height: 12px;
+    border: 2.5px solid #A1887F;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #8D6E63, #6D4C41);
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.35),
+        inset 0 1px 2px rgba(255,255,255,0.2);
+    position: relative;
+    z-index: 2;
+}
+
+/* --- Book title --- */
+.book-title-text {
+    font-family: 'STKaiti', 'KaiTi', '楷体', 'Noto Serif SC', Georgia, serif;
+    font-size: 1.5rem;
+    color: #FFD54F;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-shadow:
+        0 1px 0 rgba(139,105,20,0.9),
+        0 2px 6px rgba(0,0,0,0.35),
+        0 0 20px rgba(255,213,79,0.15);
+    position: relative;
+    z-index: 1;
+    writing-mode: vertical-rl;
+}
+
+/* --- Decorative divider --- */
+.book-divider {
+    width: 36px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,213,79,0.45), transparent);
+    margin: 14px 0;
+    position: relative;
+    z-index: 1;
+}
+.book-divider::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    width: 6px;
+    height: 6px;
+    background: rgba(255,213,79,0.35);
+    transform: translateX(-50%) rotate(45deg);
+}
+
+/* --- Pressed flower on cover --- */
+.book-cover-flower {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    z-index: 1;
+    margin-top: 6px;
+}
+.book-cover-flower::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle, #FFF9C4 22%, transparent 22%),
+        radial-gradient(circle at 50% 12%, #A8B868 0%, #8B9A46 55%, transparent 55%),
+        radial-gradient(circle at 88% 38%, #A8B868 0%, #8B9A46 55%, transparent 55%),
+        radial-gradient(circle at 73% 85%, #A8B868 0%, #8B9A46 55%, transparent 55%),
+        radial-gradient(circle at 27% 85%, #C8D8A8 0%, #A8B868 55%, transparent 55%),
+        radial-gradient(circle at 12% 38%, #C8D8A8 0%, #A8B868 55%, transparent 55%);
+    opacity: 0.65;
+}
+.book-cover-flower-leaf {
+    width: 18px;
+    height: 10px;
+    position: relative;
+    z-index: 1;
+    margin-top: 2px;
+}
+.book-cover-flower-leaf::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 8px;
+    background: linear-gradient(90deg, #8B9A46, #6B7A30);
+    border-radius: 0 70% 0 70%;
+    opacity: 0.5;
+    transform: rotate(-15deg);
+}
+
+/* --- Year text --- */
+.book-year {
+    font-family: 'Times New Roman', Georgia, serif;
+    font-size: 0.6rem;
+    color: rgba(255,213,79,0.3);
+    letter-spacing: 3px;
+    position: relative;
+    z-index: 1;
+    margin-top: 14px;
+}
+
+/* --- Ruled lines on right page --- */
+.book-ruled-line {
+    width: 78%;
+    height: 1px;
+    background: rgba(188,170,140,0.35);
+    margin-bottom: 18px;
+    margin-left: 8px;
+}
+.book-ruled-line:nth-child(1) { margin-top: 6px; }
+.book-ruled-line:nth-child(2) { width: 85%; }
+.book-ruled-line:nth-child(3) { width: 68%; }
+.book-ruled-line:nth-child(4) { width: 80%; }
+.book-ruled-line:nth-child(5) { width: 55%; }
+
+/* --- Page corner fold --- */
+.book-page-corner {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(225deg, #FFECB3 50%, #D7CCC8 50%);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    opacity: 0.5;
+}
+
+/* --- Ribbon bookmark --- */
+.book-ribbon {
+    position: absolute;
+    top: -2px;
+    right: 24%;
+    width: 11px;
+    height: 44px;
+    background: linear-gradient(180deg, #C62828 0%, #B71C1C 60%, #D32F2F 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+    z-index: 6;
+    box-shadow: 1px 2px 6px rgba(0,0,0,0.25);
+}
+.book-ribbon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.15), transparent);
+}
+
+/* ============ Card 3: 我的花朵 - 紫色渐变 ============ */
+.card-myflower .card-body {
+    background: linear-gradient(135deg, #C9A8E0 0%, #A87DC5 40%, #8B6BB5 100%);
+    box-shadow: 0 12px 40px rgba(139,107,181,0.3);
+    border: 2px solid rgba(201,168,224,0.3);
+    color: white;
+}
+.card-myflower .card-label { color: white; }
+.card-myflower .card-body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.myflower-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.flower-img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    animation: float 3s ease-in-out infinite;
+}
+.flower-name-tag {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* --- Navigation Arrows --- */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 251, 242, 0.6);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(139, 154, 70, 0.15);
+    opacity: 0.6;
+}
+.nav-arrow:hover {
+    opacity: 1;
+    background: rgba(255, 251, 242, 0.9);
+    color: var(--primary-dark);
+    transform: translateY(-50%) scale(1.1);
+}
+.nav-arrow-left { left: 8px; }
+.nav-arrow-right { right: 8px; }
+
+/* --- Card Dots Indicator --- */
+.card-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+}
+.card-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.35;
+    transition: all 0.35s ease;
+    cursor: pointer;
+}
+.card-dot.active {
+    opacity: 1;
+    background: var(--primary);
+    transform: scale(1.3);
+}
+
+/* --- 花朵视界 (Vision Page) --- */
+.vision-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+.vision-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.video-wrapper {
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16/9;
+    background: #1a1a1a;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+}
+.video-wrapper video,
+.video-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.stream-status {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    padding: 8px 14px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.8rem;
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #8B9A46;
+    animation: pulse 2s infinite;
+}
+.video-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #666;
+    gap: 12px;
+}
+.video-placeholder .icon { font-size: 3rem; opacity: 0.5; }
+
+/* --- 花朵日记 (Diary Page) --- */
+.diary-container { max-width: 800px; margin: 0 auto; }
+.diary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+.diary-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.btn-history {
+    padding: 8px 16px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+.btn-history:hover { background: var(--primary); color: white; }
+
+.diary-section { margin-bottom: 40px; }
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+.diary-entry {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(139, 154, 70, 0.1);
+}
+.entry-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+.entry-content {
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+/* 现在卡片 */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+.now-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border-left: 3px solid var(--primary);
+    animation: fadeInUp 0.4s ease-out;
+    transition: var(--transition);
+}
+.now-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+.now-card .card-time {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+.now-card .card-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* --- 我的花朵 (My Flower Page) --- */
+.myflower-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 20px 0;
+}
+.flower-card {
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(135deg, #C9A8E0 0%, #A87DC5 50%, #8B6BB5 100%);
+    border-radius: var(--radius-xl);
+    padding: 40px 32px;
+    color: white;
+    box-shadow: 0 12px 40px rgba(139,107,181,0.3);
+    position: relative;
+    overflow: hidden;
+}
+.flower-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.flower-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    position: relative;
+}
+.flower-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.btn-rename {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.btn-rename:hover { background: rgba(255,255,255,0.3); }
+
+.flower-avatar {
+    text-align: center;
+    font-size: 4rem;
+    margin: 16px 0;
+    position: relative;
+}
+.thought-bubble {
+    position: relative;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    animation: fadeIn 0.5s ease-out;
+}
+.thought-bubble::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 24px;
+    width: 16px;
+    height: 16px;
+    background: rgba(255,255,255,0.2);
+    transform: rotate(45deg);
+    border-radius: 2px;
+}
+
+.mood-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.15);
+    border-radius: var(--radius-sm);
+}
+.mood-label { font-size: 0.85rem; opacity: 0.8; }
+.mood-value { font-size: 1.1rem; font-weight: 600; }
+
+.physio-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+.physio-title {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 16px;
+}
+.physio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.physio-item {
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    text-align: center;
+}
+.physio-item .label {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-bottom: 4px;
+}
+.physio-item .value {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Utility Classes --- */
+.text-center { text-align: center; }
+.mt-2 { margin-top: 16px; }
+.mt-4 { margin-top: 32px; }
+.hidden { display: none; }
+
+/* Toast 通知 */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg-card);
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    border-left: 4px solid var(--primary);
+    font-size: 0.9rem;
+    z-index: 1000;
+    animation: slideUp 0.3s ease-out;
+    transition: var(--transition);
+}
+.toast.error { border-left-color: #EF5350; }
+.toast.hide { opacity: 0; transform: translateY(10px); }
+
+/* 加载动画 */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--primary-light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    .home-title { font-size: 2.8rem; }
+    .card-stack { height: 480px; }
+    .stack-card { width: 250px; height: 340px; margin-left: -125px; margin-top: -170px; }
+    .stack-card.pos-left { transform: translateX(-200px) translateZ(-40px) rotateY(18deg) scale(0.85); }
+    .stack-card.pos-right { transform: translateX(200px) translateZ(-40px) rotateY(-18deg) scale(0.85); }
+}
+
+@media (max-width: 768px) {
+    .main-nav { padding: 0 16px; }
+    .nav-container { height: 52px; }
+    .nav-logo { font-size: 1.1rem; }
+    .nav-links { gap: 8px; }
+    .nav-links a { font-size: 0.8rem; padding: 6px 8px; }
+    
+    .main-content { padding: 24px 16px; }
+    
+    .home-hero { padding: 24px 0 12px; }
+    .home-title { font-size: 2.2rem; }
+    .home-subtitle { font-size: 0.95rem; }
+    
+    .card-stack { height: 440px; }
+    .stack-card { width: 220px; height: 300px; margin-left: -110px; margin-top: -150px; }
+    .stack-card.pos-left { transform: translateX(-140px) translateZ(-30px) rotateY(14deg) scale(0.82); }
+    .stack-card.pos-right { transform: translateX(140px) translateZ(-30px) rotateY(-14deg) scale(0.82); }
+    
+    .nav-arrow { width: 36px; height: 36px; opacity: 0.45; }
+    .nav-arrow svg { width: 24px; height: 24px; }
+    
+    .eye-icon { width: 100px; height: 100px; }
+    .petal-ring { width: 100px; height: 100px; }
+    .petal { width: 34px; height: 44px; margin-left: -17px; margin-top: -38px; transform-origin: center 38px; }
+    .pupil { width: 50px; height: 50px; }
+    .pupil-highlight { width: 14px; height: 14px; top: 10px; left: 12px; }
+    
+    .card-diary .card-body { padding: 16px 12px 40px; }
+    .book-title-text { font-size: 1.2rem; letter-spacing: 3px; }
+    .book-cover-flower { width: 24px; height: 24px; }
+    .book-cover-flower-leaf { width: 14px; height: 8px; }
+    .book-binding { width: 14px; }
+    .book-ring { width: 10px; height: 10px; }
+    .book-ruled-line { margin-bottom: 14px; }
+    .book-ribbon { height: 36px; width: 9px; }
+    .book-year { font-size: 0.5rem; }
+    
+    .flower-img { width: 90px; height: 90px; }
+    
+    .video-wrapper { border-radius: var(--radius-md); }
+    
+    .flower-card {
+        max-width: 100%;
+        padding: 32px 24px;
+        border-radius: var(--radius-lg);
+    }
+    .physio-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    
+    .cards-grid { grid-template-columns: 1fr; }
+    
+    .diary-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+    
+    .toast { left: 16px; right: 16px; bottom: 16px; }
+}
+
+@media (max-width: 480px) {
+    .home-title { font-size: 1.8rem; }
+    .nav-links a { font-size: 0.75rem; padding: 4px 6px; }
+    .flower-card { padding: 24px 16px; }
+    
+    .card-stack { height: 400px; }
+    .stack-card { width: 190px; height: 260px; margin-left: -95px; margin-top: -130px; }
+    .stack-card.pos-left { transform: translateX(-100px) translateZ(-20px) rotateY(12deg) scale(0.8); }
+    .stack-card.pos-right { transform: translateX(100px) translateZ(-20px) rotateY(-12deg) scale(0.8); }
+    .card-label { font-size: 0.85rem; bottom: 16px; }
+
+    .card-diary .card-body { padding: 12px 8px 36px; }
+    .book-title-text { font-size: 1rem; letter-spacing: 2px; }
+    .book-cover-flower { width: 20px; height: 20px; }
+    .book-cover-flower-leaf { display: none; }
+    .book-divider { width: 28px; margin: 10px 0; }
+    .book-binding { width: 12px; padding: 20px 0; }
+    .book-ring { width: 8px; height: 8px; border-width: 2px; }
+    .book-ribbon { height: 28px; width: 8px; right: 20%; }
+    .book-ruled-line { margin-bottom: 11px; }
+    .book-year { display: none; }
+}
+
+/* ==========================================
+   Mobile Page Transition
+   ========================================== */
+.page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    transform: translateY(100%);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.page-transition-overlay.active {
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.transition-triangle {
+    width: 100%;
+    height: 60px;
+    position: relative;
+}
+
+.transition-triangle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 60px solid var(--primary);
+}
+
+.transition-body {
+    flex: 1;
+    width: 100%;
+}
+
+.card-slide-up {
+    transform: translateY(-120vh) !important;
+    opacity: 0 !important;
+    transition: transform 0.5s ease-in, opacity 0.4s ease-out !important;
+}
+
+/* ==========================================
+   Pull to Go Home (Mobile)
+   ========================================== */
+.pull-home-hint {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 0;
+    background: linear-gradient(180deg, rgba(139, 154, 70, 0.18) 0%, transparent 100%);
+    color: var(--primary-dark);
+    font-size: 0.85rem;
+    opacity: 0;
+    z-index: 1000;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.25s ease;
+    transform: translateY(-100%);
+}
+
+.pull-home-hint.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* 只在移动端显示 */
+@media (min-width: 769px) {
+    .pull-home-hint { display: none !important; }
+}

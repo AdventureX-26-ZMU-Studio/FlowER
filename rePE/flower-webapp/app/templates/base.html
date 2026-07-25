@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FlowER - 花朵机器人{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- 移动端下拉返回首页提示 -->
+    <div id="pull-home-hint" class="pull-home-hint">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+        <span>下拉返回首页</span>
+    </div>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            {% if request.path != '/' %}
+            <div class="nav-back-hint">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                <span>下拉返回首页</span>
+            </div>
+            {% endif %}
+            <a href="/" class="nav-logo">🌱 FlowER</a>
+            <div class="nav-links">
+                <a href="/FlowER视界">FlowER视界</a>
+                <a href="/FlowER日记">FlowER日记</a>
+                <a href="/我的FlowER">我的FlowER</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer class="main-footer">
+        <p>FlowER - Flower Embodied Robotics</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

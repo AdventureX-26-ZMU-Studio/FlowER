@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}历史日记 - FlowER{% endblock %}
+
+{% block content %}
+<div class="diary-container">
+    <div class="diary-header">
+        <h1 class="diary-title">历史日记</h1>
+        <a href="/FlowER日记" class="btn-history">← 返回日记</a>
+    </div>
+    
+    {% if entries %}
+    {% for entry in entries|reverse %}
+    <div class="diary-section">
+        <div class="diary-entry">
+            <div class="entry-date">{{ entry.date }}</div>
+            <div class="entry-content">{{ entry.content }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="diary-entry text-center">
+        <div class="entry-content" style="color: var(--text-muted); padding: 40px;">
+            <p style="font-size: 2rem; margin-bottom: 12px;">📖</p>
+            <p>还没有历史日记</p>
+            <p style="font-size: 0.85rem; margin-top: 8px;">每天的记录会自动归档到这里</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

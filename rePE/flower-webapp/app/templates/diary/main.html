@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}FlowER日记 - FlowER{% endblock %}
+
+{% block content %}
+<div class="diary-container">
+    <div class="diary-header">
+        <h1 class="diary-title">FlowER日记</h1>
+        <a href="/FlowER日记/历史" class="btn-history">📚 查看全部日记</a>
+    </div>
+    
+    <!-- 昨日日记 -->
+    <div class="diary-section">
+        <h3 class="section-title">📝 昨日记录</h3>
+        {% if entry %}
+        <div class="diary-entry">
+            <div class="entry-date">{{ entry.date }}</div>
+            <div class="entry-content">{{ entry.content }}</div>
+        </div>
+        {% else %}
+        <div class="diary-entry">
+            <div class="entry-content" style="color: var(--text-muted); text-align: center;">
+                暂无日记记录，花朵正在努力生长中...
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- 现在……卡片 -->
+    <div class="diary-section">
+        <h3 class="section-title">🌱 现在</h3>
+        <div class="cards-grid" id="now-cards">
+            {% for card in now_cards %}
+            <div class="now-card">
+                <div class="card-time">{{ card.time }}</div>
+                <div class="card-text">{{ card.text }}</div>
+            </div>
+            {% endfor %}
+            {% if not now_cards %}
+            <div class="now-card" style="border-left-color: var(--text-muted);">
+                <div class="card-text" style="color: var(--text-muted);">等待下一次状态更新...</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- 最近总结 -->
+    <div class="diary-section">
+        <h3 class="section-title">⏰ 最近</h3>
+        <div id="recent-summaries">
+            {% for summary in recent_summaries %}
+            <div class="diary-entry" style="margin-bottom: 12px;">
+                <div class="entry-date">{{ summary.time }} · {{ summary.card_count }}条记录</div>
+                <div class="entry-content">{{ summary.text }}</div>
+            </div>
+            {% endfor %}
+            {% if not recent_summaries %}
+            <div class="diary-entry">
+                <div class="entry-content" style="color: var(--text-muted); text-align: center;">
+                    每小时自动生成总结
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

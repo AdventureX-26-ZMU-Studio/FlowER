@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}FlowER视界 - FlowER{% endblock %}
+
+{% block content %}
+<div class="vision-container">
+    <h1 class="vision-title">FlowER视界</h1>
+    <p class="home-desc">实时观察花朵的世界</p>
+    
+    <div class="video-wrapper" id="video-container">
+        <div class="video-placeholder" id="placeholder">
+            <span class="icon">📷</span>
+            <p>等待视频流连接...</p>
+            <div class="loading-spinner"></div>
+        </div>
+        
+        <!-- 视频流画面 -->
+        <img id="stream-img" src="" alt="花朵实时画面" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+        
+        <div class="stream-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-text">连接中</span>
+        </div>
+    </div>
+    
+    <div class="vision-info mt-4">
+        <p class="text-center" style="color: var(--text-muted); font-size: 0.85rem;">
+            📡 奥比中光 DaBaiDCW 实时画面 · Vision Hub 驱动
+        </p>
+    </div>
+</div>
+
+<script>
+(function() {
+    const streamImg = document.getElementById('stream-img');
+    const placeholder = document.getElementById('placeholder');
+    const statusDot = document.getElementById('status-dot');
+    const statusText = document.getElementById('status-text');
+    let ws = null;
+    let reconnectTimer = null;
+    let reconnectDelay = 1000;
+
+    function setStatus(state, text) {
+        const colors = {
+            connecting: '#FFA726',
+            live: '#8B9A46',
+            disconnected: '#EF5350'
+        };
+        statusDot.style.background = colors[state] || colors.disconnected;
+        statusText.textContent = text;
+    }
+
+    function connect() {
+        setStatus('connecting', '连接中...');
+        const wsUrl = '{{ stream_url|safe }}';
+
+        try {
+            ws = new WebSocket(wsUrl);
+        } catch(e) {
+            scheduleReconnect();
+            return;
+        }
+
+        ws.onopen = function() {
+            reconnectDelay = 1000;
+            setStatus('live', '直播中');
+        };
+
+        ws.onmessage = function(event) {
+            try {
+                const frame = JSON.parse(event.data);
+                if (frame.rgb_jpeg_b64) {
+                    streamImg.src = 'data:image/jpeg;base64,' + frame.rgb_jpeg_b64;
+                    streamImg.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    setStatus('live', '直播中');
+                }
+            } catch(e) {
+                // skip non-JSON or bad frames
+            }
+        };
+
+        ws.onerror = function() {
+            setStatus('disconnected', '连接断开');
+        };
+
+        ws.onclose = function() {
+            setStatus('disconnected', '连接断开');
+            scheduleReconnect();
+        };
+    }
+
+    function scheduleReconnect() {
+        if (reconnectTimer) return;
+        setStatus('connecting', reconnectDelay >= 8000 ? '重连中...' : '等待重连...');
+        reconnectTimer = setTimeout(function() {
+            reconnectTimer = null;
+            reconnectDelay = Math.min(reconnectDelay * 2, 30000);
+            connect();
+        }, reconnectDelay);
+    }
+
+    connect();
+})();
+</script>
+{% endblock %}

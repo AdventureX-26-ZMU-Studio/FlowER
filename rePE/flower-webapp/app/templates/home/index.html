@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}FlowER - 首页{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <div class="home-hero">
+        <h1 class="home-title">FlowER</h1>
+        <p class="home-subtitle">Flower Embodied Robotics</p>
+        <p class="home-desc">为花朵创造一个能表达自我的身体</p>
+    </div>
+
+    <div class="card-stack" id="card-stack">
+        <!-- 导航箭头指示器 -->
+        <div class="nav-arrow nav-arrow-left" id="nav-arrow-left">
+            <svg viewBox="0 0 24 24" width="32" height="32"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-arrow nav-arrow-right" id="nav-arrow-right">
+            <svg viewBox="0 0 24 24" width="32" height="32"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- FlowER视界卡片 - 萌系眼睛造型 -->
+        <div class="stack-card card-vision" data-index="0" data-href="/FlowER视界">
+            <div class="card-body">
+                <div class="eye-icon">
+                    <div class="petal-ring">
+                        <div class="petal p1"></div>
+                        <div class="petal p2"></div>
+                        <div class="petal p3"></div>
+                        <div class="petal p4"></div>
+                        <div class="petal p5"></div>
+                        <div class="petal p6"></div>
+                    </div>
+                    <div class="pupil">
+                        <div class="pupil-highlight"></div>
+                    </div>
+                </div>
+                <span class="card-label">FlowER视界</span>
+            </div>
+        </div>
+
+        <!-- FlowER日记卡片 - 复古手札造型 -->
+        <div class="stack-card card-diary" data-index="1" data-href="/FlowER日记">
+            <div class="card-body">
+                <div class="book-journal">
+                    <div class="book-page book-page-left">
+                        <div class="book-title-text">FlowER日记</div>
+                        <div class="book-divider"></div>
+                        <div class="book-cover-flower"></div>
+                        <div class="book-cover-flower-leaf"></div>
+                        <div class="book-year">MMXXVI</div>
+                    </div>
+                    <div class="book-page book-page-right">
+                        <div class="book-ruled-line"></div>
+                        <div class="book-ruled-line"></div>
+                        <div class="book-ruled-line"></div>
+                        <div class="book-ruled-line"></div>
+                        <div class="book-ruled-line"></div>
+                        <div class="book-page-corner"></div>
+                    </div>
+                    <div class="book-binding">
+                        <span class="book-ring"></span>
+                        <span class="book-ring"></span>
+                        <span class="book-ring"></span>
+                    </div>
+                    <div class="book-ribbon"></div>
+                </div>
+                <span class="card-label">FlowER日记</span>
+            </div>
+        </div>
+
+        <!-- 我的FlowER卡片 - 紫色渐变 -->
+        <div class="stack-card card-myflower" data-index="2" data-href="/我的FlowER">
+            <div class="card-body">
+                <div class="myflower-icon">
+                    <img src="{{ url_for('static', filename='cartoon_flower.png') }}" alt="小兰" class="flower-img">
+                    <div class="flower-name-tag">小兰</div>
+                </div>
+                <span class="card-label">我的FlowER</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 卡片指示点 -->
+    <div class="card-dots" id="card-dots">
+        <span class="card-dot" data-index="0"></span>
+        <span class="card-dot" data-index="1"></span>
+        <span class="card-dot" data-index="2"></span>
+    </div>
+</div>
+
+<script>
+(function() {
+    const TOTAL = 3;
+    const SWIPE_THRESHOLD = 50;
+    const stack = document.getElementById('card-stack');
+    const cards = stack.querySelectorAll('.stack-card');
+    const dots = document.querySelectorAll('.card-dot');
+    const arrowLeft = document.getElementById('nav-arrow-left');
+    const arrowRight = document.getElementById('nav-arrow-right');
+    let activeIndex = 2; // 默认选中"我的FlowER"
+    let isAnimating = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    function updatePositions() {
+        const leftIdx = (activeIndex - 1 + TOTAL) % TOTAL;
+        const rightIdx = (activeIndex + 1) % TOTAL;
+        cards.forEach(card => {
+            const idx = parseInt(card.dataset.index);
+            card.classList.remove('pos-left', 'pos-right', 'pos-center');
+            if (idx === activeIndex) {
+                card.classList.add('pos-center');
+            } else if (idx === leftIdx) {
+                card.classList.add('pos-left');
+            } else if (idx === rightIdx) {
+                card.classList.add('pos-right');
+            }
+        });
+        // 更新指示点
+        dots.forEach(dot => {
+            const idx = parseInt(dot.dataset.index);
+            dot.classList.toggle('active', idx === activeIndex);
+        });
+    }
+
+    function switchTo(direction) {
+        if (isAnimating) return;
+        isAnimating = true;
+        if (direction === 'next') {
+            activeIndex = (activeIndex + 1) % TOTAL;
+        } else {
+            activeIndex = (activeIndex - 1 + TOTAL) % TOTAL;
+        }
+        updatePositions();
+        setTimeout(() => { isAnimating = false; }, 500);
+    }
+
+    // --- Touch Swipe ---
+    stack.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+    }, { passive: true });
+
+    stack.addEventListener('touchend', function(e) {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+            if (dx < 0) {
+                switchTo('next');  // 左滑 → 下一张
+            } else {
+                switchTo('prev');  // 右滑 → 上一张
+            }
+        }
+    }, { passive: true });
+
+    // --- 点击区域切换 ---
+    stack.addEventListener('click', function(e) {
+        const rect = stack.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const relX = x / rect.width;
+        const idx = parseInt(e.target.closest('.stack-card')?.dataset.index ?? '-1');
+
+        if (relX < 0.30) {
+            // 左侧区域 → 上一张
+            switchTo('prev');
+        } else if (relX > 0.70) {
+            // 右侧区域 → 下一张
+            switchTo('next');
+        } else {
+            // 中间区域 → 点击选中卡片则导航
+            if (idx === activeIndex) {
+                const card = e.target.closest('.stack-card');
+                if (!card) return;
+                const href = card.dataset.href;
+
+                // 检查是否是移动端
+                const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+                if (isMobile) {
+                    // 移动端：执行过渡动画
+                    const cardColors = {
+                        '/FlowER视界': '#4CAF50',
+                        '/FlowER日记': '#5D4037',
+                        '/我的FlowER': '#7E57C2'
+                    };
+
+                    const color = cardColors[href];
+
+                    // 1. 卡片上滑
+                    card.classList.add('card-slide-up');
+
+                    // 2. 创建蒙版
+                    const overlay = document.createElement('div');
+                    overlay.className = 'page-transition-overlay';
+                    overlay.style.color = color;
+                    overlay.innerHTML = '<div class="transition-triangle"></div><div class="transition-body"></div>';
+
+                    // 设置蒙版颜色
+                    overlay.querySelector('.transition-triangle').style.backgroundColor = color;
+                    overlay.querySelector('.transition-body').style.backgroundColor = color;
+
+                    document.body.appendChild(overlay);
+
+                    // 3. 触发蒙版动画（需要两帧延迟）
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            overlay.classList.add('active');
+                        });
+                    });
+
+                    // 4. 动画结束后跳转
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 1000);
+
+                    return; // 阻止后续代码执行
+                }
+                // 桌面端继续原有的直接跳转逻辑
+                window.location.href = href;
+            }
+        }
+    });
+
+    // --- 箭头点击 ---
+    arrowLeft.addEventListener('click', function(e) {
+        e.stopPropagation();
+        switchTo('prev');
+    });
+    arrowRight.addEventListener('click', function(e) {
+        e.stopPropagation();
+        switchTo('next');
+    });
+
+    // --- 键盘支持 ---
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') switchTo('prev');
+        if (e.key === 'ArrowRight') switchTo('next');
+    });
+
+    // --- 指示点点击 ---
+    dots.forEach(dot => {
+        dot.addEventListener('click', function() {
+            const idx = parseInt(this.dataset.index);
+            if (idx !== activeIndex) {
+                if (isAnimating) return;
+                isAnimating = true;
+                activeIndex = idx;
+                updatePositions();
+                setTimeout(() => { isAnimating = false; }, 500);
+            }
+        });
+    });
+
+    updatePositions();
+})();
+</script>
+{% endblock %}

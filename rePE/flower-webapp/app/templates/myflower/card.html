@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}我的FlowER - FlowER{% endblock %}
+
+{% block content %}
+<div class="myflower-container">
+    <div class="flower-card">
+        <div class="flower-header">
+            <h2 class="flower-name" id="flower-name">{{ flower.name }}</h2>
+            <button class="btn-rename" id="btn-rename" onclick="startRename()">✏️ 改名</button>
+        </div>
+        
+        <div class="flower-avatar">
+            🌸
+        </div>
+        
+        <!-- 思想气泡 -->
+        <div class="thought-bubble" id="thought-bubble">
+            正在思考中...
+        </div>
+        
+        <!-- 心情显示 -->
+        <div class="mood-display">
+            <span class="mood-label">当前心情</span>
+            <span class="mood-value" id="mood-value">加载中...</span>
+        </div>
+        
+        <!-- 生理数据 -->
+        <div class="physio-section">
+            <div class="physio-title">生理数据</div>
+            <div class="physio-grid">
+                <div class="physio-item">
+                    <div class="label">温度</div>
+                    <div class="value" id="data-temp">--</div>
+                </div>
+                <div class="physio-item">
+                    <div class="label">湿度</div>
+                    <div class="value" id="data-humidity">--</div>
+                </div>
+                <div class="physio-item">
+                    <div class="label">土壤湿润</div>
+                    <div class="value" id="data-soil">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 重命名弹窗 -->
+<div id="rename-modal" class="modal hidden">
+    <div class="modal-overlay" onclick="cancelRename()"></div>
+    <div class="modal-content">
+        <h3>给花朵起个新名字</h3>
+        <input type="text" id="rename-input" placeholder="输入新名字" maxlength="20">
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="cancelRename()">取消</button>
+            <button class="btn-confirm" onclick="confirmRename()">确定</button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 重命名弹窗样式 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal.hidden { display: none; }
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+}
+.modal-content {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    width: 90%;
+    max-width: 360px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: fadeInUp 0.3s ease-out;
+}
+.modal-content h3 {
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+}
+.modal-content input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--primary-light);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.modal-content input:focus {
+    border-color: var(--primary);
+}
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+.btn-cancel, .btn-confirm {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-cancel {
+    background: #f5f5f5;
+    color: var(--text-secondary);
+}
+.btn-cancel:hover { background: #eeeeee; }
+.btn-confirm {
+    background: var(--primary);
+    color: white;
+}
+.btn-confirm:hover { background: var(--primary-dark); }
+</style>
+
+<script>
+(function() {
+    // 加载心情数据
+    function loadMood() {
+        fetch('/我的FlowER/api/mood')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('mood-value').textContent = 
+                    (data.emoji || '') + ' ' + (data.mood || '未知');
+            })
+            .catch(() => {
+                document.getElementById('mood-value').textContent = '😊 开心';
+            });
+    }
+    
+    // 加载思想
+    function loadThought() {
+        fetch('/我的FlowER/api/thought')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('thought-bubble').textContent = 
+                    data.thought || '在思考中...';
+            })
+            .catch(() => {
+                document.getElementById('thought-bubble').textContent = '今天天气真好...';
+            });
+    }
+    
+    // 加载生理数据
+    function loadPhysiological() {
+        fetch('/我的FlowER/api/physiological')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('data-temp').textContent = (data.temperature || '--') + '°C';
+                document.getElementById('data-humidity').textContent = (data.humidity || '--') + '%';
+                document.getElementById('data-soil').textContent = data.soil_moisture || '--';
+            })
+            .catch(() => {});
+    }
+    
+    // 初始加载
+    loadMood();
+    loadThought();
+    loadPhysiological();
+    
+    // 定时刷新（每30秒）
+    setInterval(loadMood, 30000);
+    setInterval(loadThought, 60000);
+    setInterval(loadPhysiological, 30000);
+})();
+
+// 重命名功能
+function startRename() {
+    const modal = document.getElementById('rename-modal');
+    const input = document.getElementById('rename-input');
+    const currentName = document.getElementById('flower-name').textContent;
+    input.value = currentName;
+    modal.classList.remove('hidden');
+    setTimeout(() => input.focus(), 100);
+}
+
+function cancelRename() {
+    document.getElementById('rename-modal').classList.add('hidden');
+}
+
+function confirmRename() {
+    const input = document.getElementById('rename-input');
+    const newName = input.value.trim();
+    
+    if (!newName) return;
+    
+    fetch('/我的FlowER/api/rename', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('flower-name').textContent = data.name;
+            cancelRename();
+        } else {
+            alert(data.message || '重命名失败');
+        }
+    })
+    .catch(() => alert('网络错误，请重试'));
+}
+</script>
+{% endblock %}
