@@ -19,19 +19,34 @@ def _fetch(url):
 
 
 def get_video_stream_url():
-    """获取 Vision Hub WebSocket 视频流 URL"""
-    return "ws://10.80.9.2:8890/v1/streams/ws?consumer_id=flower-webapp&streams=rgb"
+    """获取 DCW 相机直连 MJPEG 视频流 URL（绕过 VisionHub）"""
+    return "/FlowER视界/api/stream"
 
 
 def get_flower_image():
-    """从 Vision Hub 获取花朵最新帧（JPEG bytes），供日记多模态分析。"""
-    import base64
-    data = _fetch("http://127.0.0.1:8890/v1/streams/export/latest")
-    if data is None:
-        return None
-    b64 = data.get("rgb_jpeg_b64")
-    if b64:
-        return base64.b64decode(b64)
+    """从本地 DCW 相机获取最新帧（JPEG bytes），供日记多模态分析。"""
+    try:
+        # 直接从 DCW 相机拉一帧
+        from pyorbbecsdk import Config, OBFormat, OBSensorType, Pipeline
+        import cv2, numpy as np
+
+        pipeline, config = Pipeline(), Config()
+        color_profiles = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
+        color_profile = color_profiles.get_video_stream_profile(640, 360, OBFormat.MJPG, 30)
+        config.enable_stream(color_profile)
+        pipeline.start(config)
+        frames = pipeline.wait_for_frames(1000)
+        if frames:
+            color = frames.get_color_frame()
+            if color:
+                data = np.frombuffer(color.get_data(), dtype=np.uint8)
+                bgr = cv2.imdecode(data, cv2.IMREAD_COLOR)
+                _, jpg = cv2.imencode(".jpg", bgr, [int(cv2.IMWRITE_JPEG_QUALITY), 75])
+                pipeline.stop()
+                return jpg.tobytes()
+        pipeline.stop()
+    except Exception as e:
+        print(f"DCW snapshot error: {e}")
     return None
 
 
