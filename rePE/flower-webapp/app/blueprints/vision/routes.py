@@ -1,31 +1,44 @@
+"""FlowER视界 - 直接奥比中光 RGB 摄像头视频流"""
 from flask import render_template, Response
 from app.blueprints.vision import bp
-from app.services.api_client import get_video_stream_url
 
 
 @bp.route('')
 def stream():
-    """FlowER视界 - 实时摄像头直播"""
-    stream_url = get_video_stream_url()
-    return render_template('vision/stream.html', stream_url=stream_url)
+    """FlowER视界 - 实时摄像头直播页面"""
+    return render_template('vision/stream.html')
 
 
-@bp.route('/api/stream')
+@bp.route('/api/snapshot')
+def snapshot():
+    """单帧 JPEG 快照 - 用于 JS 定时刷新"""
+    from app.camera import get_camera
+    cam = get_camera()
+    jpg = cam.capture_jpeg()
+    if jpg is not None:
+        return Response(jpg, mimetype='image/jpeg')
+    else:
+        # 返回 204 No Content 让前端保持当前画面
+        return Response(status=204)
+
+
+@bp.route('/api/mjpeg')
 def video_feed():
-    """MJPEG 视频流端点（占位）
-    未来接入真实摄像头 API 后，此端点将代理视频流
-    """
-    # TODO: 接入真实 API 后实现 MJPEG 流代理
-    # 目前返回占位响应
-    def generate_placeholder():
-        # 生成一个简单的占位帧
-        import time
-        placeholder_msg = b'--frame\r\nContent-Type: text/plain\r\n\r\nVideo stream not connected\r\n'
+    """MJPEG 视频流（保留给 Firefox 等原生支持的浏览器）"""
+    from app.camera import get_camera
+    
+    def generate():
+        cam = get_camera()
         while True:
-            yield placeholder_msg
-            time.sleep(1)
-
+            jpg = cam.capture_jpeg()
+            if jpg is not None:
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + jpg + b'\r\n')
+            else:
+                import time
+                time.sleep(0.03)
+    
     return Response(
-        generate_placeholder(),
+        generate(),
         mimetype='multipart/x-mixed-replace; boundary=frame'
     )

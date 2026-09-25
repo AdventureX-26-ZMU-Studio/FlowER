@@ -1,6 +1,7 @@
 from flask import Flask
 from dotenv import load_dotenv
 import os
+import atexit
 
 
 def create_app(config_name="development"):
@@ -31,5 +32,15 @@ def create_app(config_name="development"):
         init_scheduler(app)
     except ImportError:
         pass
+
+    # 注册退出时释放摄像头
+    def _shutdown_camera():
+        try:
+            from app.camera import shutdown_camera
+            shutdown_camera()
+        except Exception:
+            pass
+    
+    atexit.register(_shutdown_camera)
 
     return app

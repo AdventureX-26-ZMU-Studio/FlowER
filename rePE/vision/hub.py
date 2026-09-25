@@ -222,7 +222,7 @@ async def stream_ws(websocket: WebSocket) -> None:
             frame = await runtime.next_frame()
             filtered = _filter_frame(frame, streams)
             await websocket.send_text(filtered.model_dump_json())
-            await asyncio.sleep(0.05)
+            await asyncio.sleep(0.0)
     except WebSocketDisconnect:
         runtime.unregister(consumer_id)
 

@@ -1,4 +1,4 @@
-"""外部 API 客户端 - 从 OPI 传感器 API 获取数据"""
+"""外部 API 客户端 - 从 OPI 传感器 API 获取数据，摄像头直连"""
 import json
 import random
 import urllib.request
@@ -7,6 +7,35 @@ import os
 # OPI sensor API base URL
 API_BASE = os.getenv("FLOWER_API_BASE", "http://10.80.5.215:5001")
 
+# ---- 摄像头直连 (替代 Vision Hub) ----
+_camera = None
+
+def _get_camera():
+    """延迟初始化摄像头（仅在首次访问时打开）"""
+    global _camera
+    if _camera is None:
+        from app.camera import OrbbecCamera
+        _camera = OrbbecCamera()
+        _camera.start()
+    return _camera
+
+
+def get_video_stream_url():
+    """获取视频流 URL（直连 MJPEG 端点）"""
+    return "/FlowER视界/api/mjpeg"
+
+
+def get_flower_image():
+    """从直连摄像头获取花朵最新帧（JPEG bytes），供日记多模态分析。"""
+    try:
+        cam = _get_camera()
+        return cam.capture_jpeg()
+    except Exception as e:
+        print(f"Camera image error: {e}")
+        return None
+
+
+# ---- OPI Sensor API (保持不变) ----
 
 def _fetch(url):
     """Simple HTTP GET returning parsed JSON, or None on failure."""
@@ -16,23 +45,6 @@ def _fetch(url):
     except Exception as e:
         print(f"API fetch error ({url}): {e}")
         return None
-
-
-def get_video_stream_url():
-    """获取 Vision Hub WebSocket 视频流 URL"""
-    return "ws://10.80.9.2:8890/v1/streams/ws?consumer_id=flower-webapp&streams=rgb"
-
-
-def get_flower_image():
-    """从 Vision Hub 获取花朵最新帧（JPEG bytes），供日记多模态分析。"""
-    import base64
-    data = _fetch("http://127.0.0.1:8890/v1/streams/export/latest")
-    if data is None:
-        return None
-    b64 = data.get("rgb_jpeg_b64")
-    if b64:
-        return base64.b64decode(b64)
-    return None
 
 
 def get_sensor_data():
@@ -52,24 +64,17 @@ def get_mood():
     temp = data.get("temperature_c")
     hum = data.get("humidity_percent")
 
-    # 基于温度 + 湿度的心情推断
     if temp is not None and hum is not None:
-        # 理想状态：20-28°C + 50-80% 湿度
         if 20 <= temp <= 28 and 50 <= hum <= 80:
             return {"mood": "舒适", "emoji": "😊", "intensity": 0.9}
-        # 高温高湿
         if temp > 30 and hum > 70:
             return {"mood": "闷热", "emoji": "🥵", "intensity": 0.8}
-        # 高温低湿
         if temp > 30 and hum < 50:
             return {"mood": "酷热", "emoji": "🌵", "intensity": 0.85}
-        # 低温
         if temp < 18:
             return {"mood": "好冷", "emoji": "🥶", "intensity": 0.7}
-        # 干燥
         if hum < 40:
             return {"mood": "干燥", "emoji": "😐", "intensity": 0.6}
-        # 温暖偏热
         if 28 < temp <= 30:
             return {"mood": "温暖", "emoji": "🌤️", "intensity": 0.65}
 
